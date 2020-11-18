@@ -1,0 +1,32 @@
+﻿<Window x:Class="MVVMUnaidded.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MVVMUnaidded.ViewModels"
+        xmlns:local="clr-namespace:MVVMUnaidded.Views"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        Title="ShellView" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:ShellViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="552,93,0,0" VerticalAlignment="Top" Width="97" Height="38" Command="{Binding BtnClickCommand}" RenderTransformOrigin="2.122,1.546"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Text="{Binding Name}" Margin="285,93,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TreeView Name="TreeView" ItemsSource="{Binding Children, Mode=TwoWay}" HorizontalAlignment="Left" Height="183" Margin="79,93,0,0" VerticalAlignment="Top" Width="162">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectedItemChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}" CommandParameter="{Binding SelectedItem, ElementName=TreeView}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children,Mode=TwoWay}">
+                    <StackPanel ToolTip="{Binding DisplayName,Mode=TwoWay}" Orientation="Horizontal">
+                        <TextBlock Text="{Binding DisplayName,Mode=TwoWay}" Foreground="Black"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
+</Window>
